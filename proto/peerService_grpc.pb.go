@@ -19,169 +19,89 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	PeerToPeerService_Write_FullMethodName  = "/PeerToPeerService/Write"
-	PeerToPeerService_Read_FullMethodName   = "/PeerToPeerService/Read"
-	PeerToPeerService_Delete_FullMethodName = "/PeerToPeerService/Delete"
+	MutualExclusion_RequestAccess_FullMethodName = "/MutualExclusion/RequestAccess"
 )
 
-// PeerToPeerServiceClient is the client API for PeerToPeerService service.
+// MutualExclusionClient is the client API for MutualExclusion service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-type PeerToPeerServiceClient interface {
-	// Method for writing data
-	Write(ctx context.Context, in *WriteRequest, opts ...grpc.CallOption) (*WriteResponse, error)
-	// Method for reading data
-	Read(ctx context.Context, in *ReadRequest, opts ...grpc.CallOption) (*ReadResponse, error)
-	// Method for deleting data
-	Delete(ctx context.Context, in *DeleteRequest, opts ...grpc.CallOption) (*DeleteResponse, error)
+type MutualExclusionClient interface {
+	RequestAccess(ctx context.Context, in *Request, opts ...grpc.CallOption) (*Reply, error)
 }
 
-type peerToPeerServiceClient struct {
+type mutualExclusionClient struct {
 	cc grpc.ClientConnInterface
 }
 
-func NewPeerToPeerServiceClient(cc grpc.ClientConnInterface) PeerToPeerServiceClient {
-	return &peerToPeerServiceClient{cc}
+func NewMutualExclusionClient(cc grpc.ClientConnInterface) MutualExclusionClient {
+	return &mutualExclusionClient{cc}
 }
 
-func (c *peerToPeerServiceClient) Write(ctx context.Context, in *WriteRequest, opts ...grpc.CallOption) (*WriteResponse, error) {
-	out := new(WriteResponse)
-	err := c.cc.Invoke(ctx, PeerToPeerService_Write_FullMethodName, in, out, opts...)
+func (c *mutualExclusionClient) RequestAccess(ctx context.Context, in *Request, opts ...grpc.CallOption) (*Reply, error) {
+	out := new(Reply)
+	err := c.cc.Invoke(ctx, MutualExclusion_RequestAccess_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *peerToPeerServiceClient) Read(ctx context.Context, in *ReadRequest, opts ...grpc.CallOption) (*ReadResponse, error) {
-	out := new(ReadResponse)
-	err := c.cc.Invoke(ctx, PeerToPeerService_Read_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *peerToPeerServiceClient) Delete(ctx context.Context, in *DeleteRequest, opts ...grpc.CallOption) (*DeleteResponse, error) {
-	out := new(DeleteResponse)
-	err := c.cc.Invoke(ctx, PeerToPeerService_Delete_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-// PeerToPeerServiceServer is the server API for PeerToPeerService service.
-// All implementations must embed UnimplementedPeerToPeerServiceServer
+// MutualExclusionServer is the server API for MutualExclusion service.
+// All implementations must embed UnimplementedMutualExclusionServer
 // for forward compatibility
-type PeerToPeerServiceServer interface {
-	// Method for writing data
-	Write(context.Context, *WriteRequest) (*WriteResponse, error)
-	// Method for reading data
-	Read(context.Context, *ReadRequest) (*ReadResponse, error)
-	// Method for deleting data
-	Delete(context.Context, *DeleteRequest) (*DeleteResponse, error)
-	mustEmbedUnimplementedPeerToPeerServiceServer()
+type MutualExclusionServer interface {
+	RequestAccess(context.Context, *Request) (*Reply, error)
+	mustEmbedUnimplementedMutualExclusionServer()
 }
 
-// UnimplementedPeerToPeerServiceServer must be embedded to have forward compatible implementations.
-type UnimplementedPeerToPeerServiceServer struct {
+// UnimplementedMutualExclusionServer must be embedded to have forward compatible implementations.
+type UnimplementedMutualExclusionServer struct {
 }
 
-func (UnimplementedPeerToPeerServiceServer) Write(context.Context, *WriteRequest) (*WriteResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Write not implemented")
+func (UnimplementedMutualExclusionServer) RequestAccess(context.Context, *Request) (*Reply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RequestAccess not implemented")
 }
-func (UnimplementedPeerToPeerServiceServer) Read(context.Context, *ReadRequest) (*ReadResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Read not implemented")
-}
-func (UnimplementedPeerToPeerServiceServer) Delete(context.Context, *DeleteRequest) (*DeleteResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Delete not implemented")
-}
-func (UnimplementedPeerToPeerServiceServer) mustEmbedUnimplementedPeerToPeerServiceServer() {}
+func (UnimplementedMutualExclusionServer) mustEmbedUnimplementedMutualExclusionServer() {}
 
-// UnsafePeerToPeerServiceServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to PeerToPeerServiceServer will
+// UnsafeMutualExclusionServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to MutualExclusionServer will
 // result in compilation errors.
-type UnsafePeerToPeerServiceServer interface {
-	mustEmbedUnimplementedPeerToPeerServiceServer()
+type UnsafeMutualExclusionServer interface {
+	mustEmbedUnimplementedMutualExclusionServer()
 }
 
-func RegisterPeerToPeerServiceServer(s grpc.ServiceRegistrar, srv PeerToPeerServiceServer) {
-	s.RegisterService(&PeerToPeerService_ServiceDesc, srv)
+func RegisterMutualExclusionServer(s grpc.ServiceRegistrar, srv MutualExclusionServer) {
+	s.RegisterService(&MutualExclusion_ServiceDesc, srv)
 }
 
-func _PeerToPeerService_Write_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(WriteRequest)
+func _MutualExclusion_RequestAccess_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Request)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(PeerToPeerServiceServer).Write(ctx, in)
+		return srv.(MutualExclusionServer).RequestAccess(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: PeerToPeerService_Write_FullMethodName,
+		FullMethod: MutualExclusion_RequestAccess_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(PeerToPeerServiceServer).Write(ctx, req.(*WriteRequest))
+		return srv.(MutualExclusionServer).RequestAccess(ctx, req.(*Request))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _PeerToPeerService_Read_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ReadRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(PeerToPeerServiceServer).Read(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: PeerToPeerService_Read_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(PeerToPeerServiceServer).Read(ctx, req.(*ReadRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _PeerToPeerService_Delete_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DeleteRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(PeerToPeerServiceServer).Delete(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: PeerToPeerService_Delete_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(PeerToPeerServiceServer).Delete(ctx, req.(*DeleteRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-// PeerToPeerService_ServiceDesc is the grpc.ServiceDesc for PeerToPeerService service.
+// MutualExclusion_ServiceDesc is the grpc.ServiceDesc for MutualExclusion service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
-var PeerToPeerService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "PeerToPeerService",
-	HandlerType: (*PeerToPeerServiceServer)(nil),
+var MutualExclusion_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "MutualExclusion",
+	HandlerType: (*MutualExclusionServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "Write",
-			Handler:    _PeerToPeerService_Write_Handler,
-		},
-		{
-			MethodName: "Read",
-			Handler:    _PeerToPeerService_Read_Handler,
-		},
-		{
-			MethodName: "Delete",
-			Handler:    _PeerToPeerService_Delete_Handler,
+			MethodName: "RequestAccess",
+			Handler:    _MutualExclusion_RequestAccess_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

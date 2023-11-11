@@ -2,45 +2,15 @@ syntax = "proto3";
 
 option go_package = "github.com/Josh0104/Distributed-Mutal-Exclusion/proto";
 
-// Define the service
-service PeerToPeerService {
-  // Method for writing data
-  rpc Write (WriteRequest) returns (WriteResponse);
-  
-  // Method for reading data
-  rpc Read (ReadRequest) returns (ReadResponse);
-  
-  // Method for deleting data
-  rpc Delete (DeleteRequest) returns (DeleteResponse);
+message Request {
+    string nodeId = 1;
+    int64 timestamp = 2;
 }
 
-message WriteRequest {
-  // Specify the data to be written
-  string data = 1;
+message Reply {
+    bool allowed = 1;
 }
 
-message WriteResponse {
-  // Indicate the success of the write operation
-  bool success = 1;
-}
-
-message ReadRequest {
-  // Specify any parameters needed for reading
-  // For example, an ID or key
-  string id = 1;
-}
-
-message ReadResponse {
-  // Provide the data read from the system
-  string data = 1;
-}
-
-message DeleteRequest {
-  // Specify the ID or key of the data to be deleted
-  string id = 1;
-}
-
-message DeleteResponse {
-  // Indicate the success of the delete operation
-  bool success = 1;
+service MutualExclusion {
+    rpc RequestAccess(Request) returns (Reply);
 }
