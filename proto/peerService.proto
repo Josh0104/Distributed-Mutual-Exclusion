@@ -1,5 +1,7 @@
 syntax = "proto3";
 
+option go_package = "github.com/Josh0104/Distributed-Mutal-Exclusion/proto";
+
 // Define the service
 service PeerToPeerService {
   // Method for writing data

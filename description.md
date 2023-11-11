@@ -37,3 +37,6 @@ You can decide to base your implementation on one of the algorithms, that were d
 Partial implementations may be accepted, if the students can reason what they should have done in the report.
 
 In order to pass, the students have to attempt to answer all questions.
+
+## Deadline 
+November 14, 2023 23:59
